@@ -1,8 +1,16 @@
 /// <reference types="cypress" />
 
 describe('contact form', () => {
+  // Runs only once, before all tests
+  before(() => {});
+
+  // Runs once before each test
+  beforeEach(() => {
+    cy.visit('/about');
+    // Seeding a database
+  });
+
   it('should submit the form', () => {
-    cy.visit('http://127.0.0.1:5173/about');
     cy.get('[data-cy="contact-input-message"]').type('Hello World');
     cy.get('[data-cy="contact-input-name"]').type('John Doe');
     cy.get('[data-cy="contact-input-email"]').type('test@example.com');
@@ -36,7 +44,6 @@ describe('contact form', () => {
   });
 
   it('should submit the form when {enter} key pressed', () => {
-    cy.visit('http://127.0.0.1:5173/about');
     cy.get('[data-cy="contact-input-message"]').type('Hello World');
     cy.get('[data-cy="contact-input-name"]').type('John Doe');
     cy.screenshot(); // Take a screenshot
@@ -45,7 +52,6 @@ describe('contact form', () => {
   });
 
   it('should validate the form input', () => {
-    cy.visit('http://127.0.0.1:5173/about');
     cy.get('[data-cy="contact-btn-submit"]').as('submitBtn');
     cy.get('@submitBtn').click();
     cy.get('@submitBtn').then((el) => {
