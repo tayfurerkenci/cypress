@@ -80,4 +80,13 @@ describe('contact form', () => {
         expect(el.attr('class')).to.match(/invalid/i);
       });
   });
+
+  it('should submit the form (usage of Cypress Custom Command)', () => {
+    cy.get('[data-cy="contact-input-message"]').type('Hello World');
+    cy.get('[data-cy="contact-input-name"]').type('John Doe');
+    cy.get('[data-cy="contact-input-email"]').type('test@example.com');
+
+    // Cypress Custom Command
+    cy.submitForm();
+  });
 });
