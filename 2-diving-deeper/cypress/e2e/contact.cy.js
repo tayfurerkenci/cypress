@@ -89,4 +89,13 @@ describe('contact form', () => {
     // Cypress Custom Command
     cy.submitForm();
   });
+
+  it('should submit the form (usage of Cypress Custom Query)', () => {
+    cy.getById('contact-input-message').type('Hello World');
+    cy.getById('contact-input-name').type('John Doe');
+    cy.getById('contact-input-email').type('test@example.com');
+
+    // Cypress Custom Command
+    cy.submitForm();
+  });
 });

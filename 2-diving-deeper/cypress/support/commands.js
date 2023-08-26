@@ -27,3 +27,12 @@
 Cypress.Commands.add('submitForm', () => {
   cy.get('form button[type="submit"]').click();
 });
+
+Cypress.Commands.addQuery('getById', (testId) => {
+  // now executes cypress command instantly
+  // Executed when we call getById() in our tests
+  const getFn = cy.now('get', `[data-cy="${testId}"]`);
+  return () => {
+    return getFn(); // Executed when Cypress actually runs our test instructions (i.e., after queueing them)
+  };
+});
