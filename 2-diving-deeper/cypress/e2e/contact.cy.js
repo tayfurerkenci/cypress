@@ -98,4 +98,19 @@ describe('contact form', () => {
     // Cypress Custom Command
     cy.submitForm();
   });
+
+  it('should called event handler when this test runs', () => {
+    // Example of Cypress task event handler
+    cy.task('seedDatabase', 'filename.csv').then((returnValue) => {
+      // returnValue is whatever we returned from the task handler
+      // e.g., filename.csv
+    });
+
+    cy.getById('contact-input-message').type('Hello World');
+    cy.getById('contact-input-name').type('John Doe');
+    cy.getById('contact-input-email').type('test@example.com');
+
+    // Cypress Custom Command
+    cy.submitForm();
+  });
 });
