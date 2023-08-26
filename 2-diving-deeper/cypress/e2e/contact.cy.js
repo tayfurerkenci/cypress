@@ -39,7 +39,9 @@ describe('contact form', () => {
     cy.visit('http://127.0.0.1:5173/about');
     cy.get('[data-cy="contact-input-message"]').type('Hello World');
     cy.get('[data-cy="contact-input-name"]').type('John Doe');
+    cy.screenshot(); // Take a screenshot
     cy.get('[data-cy="contact-input-email"]').type('test@example.com{enter}');
+    cy.screenshot(); // Take a screenshot
   });
 
   it('should validate the form input', () => {
@@ -54,22 +56,22 @@ describe('contact form', () => {
     cy.get('[data-cy="contact-input-message"]').blur();
     cy.get('[data-cy="contact-input-message"]')
       .parent()
-      .then((el) => {
-        expect(el.attr('class')).to.contains('invalid');
-      });
+      .should('have.attr', 'class')
+      .and('match', /invalid/i); // and just is an alias for should
 
     cy.get('[data-cy="contact-input-name"]').focus().blur();
     cy.get('[data-cy="contact-input-name"]')
       .parent()
-      .then((el) => {
-        expect(el.attr('class')).to.contains('invalid');
-      });
+      .should('have.attr', 'class')
+      .and('match', /invalid/i); // and just is an alias for should
 
     cy.get('[data-cy="contact-input-email"]').focus().blur();
     cy.get('[data-cy="contact-input-email"]')
       .parent()
-      .then((el) => {
-        expect(el.attr('class')).to.contains('invalid');
+      // used should instead of then because tests were failing with then
+      .should((el) => {
+        expect(el.attr('class')).not.to.undefined;
+        expect(el.attr('class')).to.match(/invalid/i);
       });
   });
 });
