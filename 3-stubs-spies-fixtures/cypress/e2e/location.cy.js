@@ -17,6 +17,8 @@ describe('share location', () => {
       cy.stub(win.navigator.clipboard, 'writeText')
         .as('saveToClipboard')
         .resolves();
+      cy.spy(win.localStorage, 'setItem').as('saveToLocalStorage');
+      cy.spy(win.localStorage, 'getItem').as('getFromLocalStorage');
     });
   });
 
@@ -28,7 +30,7 @@ describe('share location', () => {
   });
 
   it('should share a location URL', () => {
-    cy.get('[data-cy="name-input"]').type('Tayfur X');
+    cy.get('[data-cy="name-input"]').type('Tayfur Erkenci');
     cy.get('[data-cy="get-loc-btn"]').click();
     cy.get('[data-cy="share-loc-btn"]').click();
     cy.get('@saveToClipboard').should('have.been.calledOnce');
@@ -36,8 +38,17 @@ describe('share location', () => {
       const { latitude, longitude } = fakePosition.coords;
       cy.get('@saveToClipboard').should(
         'have.been.calledWithMatch',
-        new RegExp(`${latitude}.*${longitude}.*${encodeURI('Tayfur X')}`)
+        new RegExp(`${latitude}.*${longitude}.*${encodeURI('Tayfur Erkenci')}`)
+      );
+      cy.get('@saveToLocalStorage').should(
+        'have.been.calledWithMatch',
+        /tayfur Erkenci/i,
+        new RegExp(`${latitude}.*${longitude}.*${encodeURI('Tayfur Erkenci')}`)
       );
     });
+    cy.get('@saveToLocalStorage').should('have.been.calledOnce');
+
+    cy.get('[data-cy="share-loc-btn"]').click();
+    cy.get('@getFromLocalStorage').should('have.been.calledTwice');
   });
 });
