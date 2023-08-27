@@ -7,12 +7,13 @@ export default defineConfig({
     baseUrl: 'http://localhost:3000',
     setupNodeEvents(on, config) {
       // implement node event listeners here
+      // it is outside of the browser
       on('task', {
         async seedDatabase() {
           await seed();
           return null;
-        }
-      })
+        },
+      });
     },
   },
 });
