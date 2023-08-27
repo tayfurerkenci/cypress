@@ -33,4 +33,15 @@ describe('Newsletter', () => {
     cy.wait('@subscribe');
     cy.contains(validationError);
   });
+
+  it('should successfully create a new contact on the backend (backend endpoint testing)', () => {
+    cy.request({
+      method: 'POST',
+      url: '/newsletter',
+      body: { email: 'tayfur@example.com' },
+      form: true,
+    }).then((response) => {
+      expect(response.status).to.equal(201);
+    });
+  });
 });
